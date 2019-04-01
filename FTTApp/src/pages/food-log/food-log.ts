@@ -1,6 +1,7 @@
+import { HealthKit, HealthKitOptions } from '@ionic-native/health-kit';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Health } from '@ionic-native/health';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+//import { Health } from '@ionic-native/health';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 
@@ -33,51 +34,80 @@ export class FoodLogPage {
   totalCal =0;
 
 //private storage: Storage
-  constructor(public navCtrl: NavController, public navParams: NavParams, private health: Health,
+  constructor(public navCtrl: NavController, public navParams: NavParams, private healthKit: HealthKit, private plt: Platform,
     private sqlite: SQLite,
      ) {
     console.log(this.navParams.get('selectedDate'));
     this.selectedDate = navParams.get('selectedDate');
       
-
-  //  Access the devices health data
-    this.health.isAvailable()
-    .then((available:boolean) => {
-      console.log(available);
-      this.health.requestAuthorization([
-        'distance', 'nutrition',  //read and write permissions
-        {
-          read: ['steps'],       //read only permission
-          write: ['height', 'weight']  //write only permission
+    this.plt.ready().then(() => { 
+      this.healthKit.available().then(available => {
+        if (available) {
+          // Request all permissions up front if you like to
+          var options: HealthKitOptions = {
+            readTypes: [ 'HKQuantityTypeIdentifierStepCount', 'HKWorkoutTypeIdentifier', 'HKQuantityTypeIdentifierActiveEnergyBurned', 'HKQuantityTypeIdentifierdistanceWalkingRunning'],
+            writeTypes: [ 'HKWorkoutTypeIdentifier', 'HKQuantityTypeIdentifierActiveEnergyBurned', 'HKQuantityTypeIdentifierdistanceWalkingRunning']
+          }
+          this.healthKit.requestAuthorization(options).then(_ => {
+            this.loadstepData();
+          })
         }
-      ])
-      .then(res => console.log(res))
-      .catch(e => console.log(e));
-      
+      });
     })
-    .catch(e => console.log(e));
-    this.loadstepData;
-
   }
+  //  Access the devices health data using health plugin
+  //   this.health.isAvailable()
+  //   .then((available:boolean) => {
+  //     console.log(available);
+  //     this.health.requestAuthorization([
+  //       'distance', 'nutrition',  //read and write permissions
+  //       {
+  //         read: ['steps'],       //read only permission
+  //         write: ['height', 'weight']  //write only permission
+  //       }
+  //     ])
+  //     .then(res => console.log(res))
+  //     .catch(e => console.log(e));
+      
+  //   })
+  //   .catch(e => console.log(e));
+  //   this.loadstepData;
+
+  // }
 
 
 loadstepData(){
-
-
   var stepOptions = {
-    startDate: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // last 24Hours
-    endDate: new Date(), // now
-    dataType: 'steps',
+    startDate: new Date(new Date().getTime() - 30*24 * 60 * 60 * 1000),
+    endDate: new Date(),
+    sampleType: 'HKQuantityTypeIdentifierStepCount',
     unit: 'count'
   }
 
-  
-  this.health.query(stepOptions).then(data => {
-    this.stepcount = data.values;
+  this.healthKit.querySampleType(stepOptions).then(data => {
+    let stepSum = data.reduce((a, b) => a + b.quantity, 0);
+    this.stepcount = stepSum;
   }, err => {
-    console.log('error steps: ', err)
+    console.log('No steps: ', err);
   });
 }
+
+
+//old way using health plugin
+//   var stepOptions = {
+//     startDate: new Date(new Date().getTime() - 24 * 60 * 60 * 1000), // last 24Hours
+//     endDate: new Date(), // now
+//     dataType: 'steps',
+//     unit: 'count'
+//   }
+
+  
+//   this.health.query(stepOptions).then(data => {
+//     this.stepcount = data.values;
+//   }, err => {
+//     console.log('error steps: ', err)
+//   });
+// }
 
     //Retrieve Data from the Database
   getBreak() {

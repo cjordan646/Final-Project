@@ -173,7 +173,7 @@ export class AddRunPage {
         });
   });
 
-    //using local storage
+    //old way using local storage
    // this.previousRoutes.push(newRoute);
    // this.storage.set('routes', this.previousRoutes);
 
