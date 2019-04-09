@@ -18,10 +18,8 @@ import { DatabaseService, MealOut } from '../../services/database';
 export class FoodLogPage {
   /*
   *
-  *
   * This page retrives the meals added to the meals database table and diplays the stored data.
   * Also included is the total steps retrieved from the healthkit plugin
-  * Would also be nice to display workouts logged for the current day
   * 
   */
   selectedDate: any;
@@ -66,13 +64,8 @@ export class FoodLogPage {
     })
   }
 
+  //Retrieve the stepcount on the users device if available
   loadstepData() {
-    /*
-    *
-    *
-    * If possible change logic below to only retrieve step count for current day
-    * 
-    */
     var stepOptions = {
       startDate: moment().startOf('day'),
       endDate: moment().endOf('day'),

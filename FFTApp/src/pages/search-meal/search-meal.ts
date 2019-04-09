@@ -67,7 +67,6 @@ export class SearchMealPage {
   }
 
   //  Method that for the API call
-  //   https://api.nutritionix.com/v1_1/search/pea?results=0%3A20&fields=item_name%2Citem_id%2Cbrand_name%2Cnf_calories%2Cnf_total_fat&appId=b15cf509&appKey=+ef180408b108a12f463c2eb4e1ea8a66
   mealSearch(event, food) {
 
     this.http.get(this.apiBaseURL + this.searchMeal + this.params)
