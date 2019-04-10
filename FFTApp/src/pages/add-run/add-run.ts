@@ -31,10 +31,6 @@ export class AddRunPage {
   finishTime: string;
   startTime: string;
   speed = [];
-  // avgSpeed: number;
-  // totSpeed: any;
-  // dist: number;
-
 
   constructor(
     public navCtrl: NavController,
@@ -43,13 +39,7 @@ export class AddRunPage {
     private dbServ: DatabaseService
   ) { }
 
-
-  /*
-  *
-  *
-  * Display the users current location on a map and a start button on page load 
-  * 
-  * */
+  // Display the users current location on a map and a start button on page load 
   ionViewDidLoad() {
     this.platform.ready().then(() => {
       this.loadHistoricRoutes();
@@ -75,15 +65,8 @@ export class AddRunPage {
   }
 
   /*
-  *
-  *
   *  The following function displays all of the previous workouts a user has completed and upon being
   *  pressed, its route is displayed on a map
-  *  If possible move the functionality which display old runs to the prev-runs page
-  *  Would also be nice if other data like distance and speed values 
-  *  were also displayed(this data is saved to the db in the StopRun function)
-  * 
-  *
   */
   loadHistoricRoutes() {
     this.dbServ.routes.then((historic: RouteOut[]) => {
@@ -92,13 +75,7 @@ export class AddRunPage {
     });
   }
 
-  /*
-  *
-  *
-  * Function to start tracking a users workout
-  * 
-  *
-  */
+  //  Function to start tracking a users workout
   startRun() {
     this.isTracking = true;
     this.trackedRoute = [];
@@ -115,12 +92,7 @@ export class AddRunPage {
       })
   }
 
-  /*
-  *
-  *
-  * Draws the path the user took on their workout in the map
-  * 
-  */
+//  Draws the path the user took on their workout in the map
   redrawPath(path) {
     if (this.currentMapTrack) {
       this.currentMapTrack.setMap(null);
@@ -139,13 +111,9 @@ export class AddRunPage {
     }
   }
 
-  /*
-  *
-  *
-  * Stops tracking the users workout and saves details to database
-  * Would be nice if this data was also stored to apple healthkit via the plugin and google fit via the api(google less so)
-  * 
-  */
+  //  Stops tracking the users workout and saves details to database
+
+
   stopRun() {
 
     let newRoute = { finished: new Date().getTime(), path: this.trackedRoute };
@@ -186,12 +154,8 @@ export class AddRunPage {
     });
   }
 
-  /*
-  *
-  *
-  * Calls the Draw path funtion upon selecting a previous workout
-  * 
-  */
+
+//  Calls the Draw path funtion upon selecting a previous workout
   showHistoricRunRoute(route) {
     this.redrawPath(route);
   }

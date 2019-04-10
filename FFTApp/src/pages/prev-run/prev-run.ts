@@ -42,6 +42,7 @@ export class PrevRunPage {
     })
   }
 
+  //Load workouts from apple HealthKit
   loadWorkouts() {
     var stepOptions = {
       startDate: moment().startOf('day'),
@@ -63,7 +64,7 @@ export class PrevRunPage {
         debugger;
       }, err => {
         console.log('no workouts: ', err);
-        // Sometimes the result comes in here, very strange.
+        // Sometimes the result comes in here, not sure why
         this.workouts = err;
       });
     } else {
@@ -73,10 +74,7 @@ export class PrevRunPage {
   }
 
   /*
-   *
-   *
-   * Load previous workouts from the database would also be nice to have the map functionality from the add-run page here
-   * 
+   * Load previous workouts from the database
    */
   loadRuns() {
     this.dbServ.routes.then((routes: RouteOut[]) => {

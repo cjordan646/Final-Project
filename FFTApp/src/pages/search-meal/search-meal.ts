@@ -19,13 +19,8 @@ import * as moment from 'moment';
 })
 export class SearchMealPage {
   /*
-  *
-  *
   * Search nutrionix api and return results
   * upon selection of meal button (breakfast, lunch, dinner, snack) and adds it to the database
-  * 
-  * 
-  *
   */
 
   //variables 

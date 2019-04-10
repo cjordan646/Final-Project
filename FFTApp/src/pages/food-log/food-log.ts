@@ -48,7 +48,7 @@ export class FoodLogPage {
       if (this.plt.is('cordova')) {
         this.healthKit.available().then(available => {
           if (available) {
-            // Request all permissions up front if you like to
+            // Request all permissions up front
             var options: HealthKitOptions = {
               readTypes: ['HKQuantityTypeIdentifierStepCount', 'HKWorkoutTypeIdentifier', 'HKQuantityTypeIdentifierActiveEnergyBurned', 'HKQuantityTypeIdentifierdistanceWalkingRunning'],
               writeTypes: ['HKWorkoutTypeIdentifier', 'HKQuantityTypeIdentifierActiveEnergyBurned', 'HKQuantityTypeIdentifierdistanceWalkingRunning']

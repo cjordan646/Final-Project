@@ -12,12 +12,7 @@ import { SearchMealPage } from './../search-meal/search-meal';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  /*
-   *
-   *
-   * Home Screen
-   * 
-   */
+
   constructor(public navCtrl: NavController, private dbServ: DatabaseService) {
     this.checkForDetails();
   }

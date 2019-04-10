@@ -9,7 +9,7 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class ListPage {
 
-      /*
+ /*
   *
   *
   * Menu for the exercise pages
